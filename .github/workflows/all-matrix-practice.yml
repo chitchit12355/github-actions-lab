@@ -50,11 +50,11 @@ jobs:
           cache-dependency-path: python-app/requirements.txt
 
       - name: Install Python dependencies
-        working-directory: python-app
+        working-directory: python_app
         run: pip install -r requirements.txt
 
       - name: Run Python tests
-        working-directory: python-app
+        working-directory: python_app
         run: pytest
 
   node_test:

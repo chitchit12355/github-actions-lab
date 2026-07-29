@@ -1,0 +1,41 @@
+name: Context Inspection
+
+on:
+  push:
+  workflow_dispatch:
+
+env:
+  APP_NAME: github-actions-lab
+  APP_ENV: dev
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show GitHub context values
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Event name: ${{ github.event_name }}"
+          echo "Workflow name: ${{ github.workflow }}"
+          echo "Branch or ref: ${{ github.ref }}"
+          echo "Commit SHA: ${{ github.sha }}"
+
+      - name: Show default environment variables
+        run: |
+          echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY"
+          echo "GITHUB_ACTOR=$GITHUB_ACTOR"
+          echo "GITHUB_EVENT_NAME=$GITHUB_EVENT_NAME"
+          echo "GITHUB_REF=$GITHUB_REF"
+          echo "GITHUB_SHA=$GITHUB_SHA"
+
+      - name: Show custom env values
+        run: |
+          echo "APP_NAME=$APP_NAME"
+          echo "APP_ENV=$APP_ENV"
+
+      - name: Show env context values
+        run: |
+          echo "APP_NAME from env context: ${{ env.APP_NAME }}"
+          echo "APP_ENV from env context: ${{ env.APP_ENV }}"

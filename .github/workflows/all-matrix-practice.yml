@@ -47,7 +47,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
-          cache-dependency-path: python-app/requirements.txt
+          cache-dependency-path: python_app/requirements.txt
 
       - name: Install Python dependencies
         working-directory: python_app
@@ -74,8 +74,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: npm
-          cache-dependency-path: node-app/package-lock.json
 
       - name: Install Node.js dependencies
         working-directory: node-app

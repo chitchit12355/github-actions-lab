@@ -1,0 +1,86 @@
+name: All Matrix Practice
+
+on:
+  workflow_dispatch:
+
+jobs:
+  java_test:
+    name: Java ${{ matrix.java-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: [17, 21]
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Java ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java-version }}
+          cache: maven
+          cache-dependency-path: java-app/pom.xml
+
+      - name: Run Java tests
+        working-directory: java-app
+        run: mvn test
+
+  python_test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: python-app/requirements.txt
+
+      - name: Install Python dependencies
+        working-directory: python-app
+        run: pip install -r requirements.txt
+
+      - name: Run Python tests
+        working-directory: python-app
+        run: pytest
+
+  node_test:
+    name: Node.js ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [18, 20, 22]
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: node-app/package-lock.json
+
+      - name: Install Node.js dependencies
+        working-directory: node-app
+        run: npm install
+
+      - name: Run Node.js tests
+        working-directory: node-app
+        run: npm test

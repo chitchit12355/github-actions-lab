@@ -1,0 +1,31 @@
+name: Java Matrix CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  java_test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java-version: [17, 21]
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Java ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java-version }}
+          cache: maven
+
+      - name: Show Java version
+        run: java -version
+
+      - name: Run Maven tests
+        run: mvn test
